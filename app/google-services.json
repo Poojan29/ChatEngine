@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "603672731592",
+    "firebase_url": "https://chatengine-aebdf.firebaseio.com",
+    "project_id": "chatengine-aebdf",
+    "storage_bucket": "chatengine-aebdf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603672731592:android:fdb0e24781c5f8a6dc6afd",
+        "android_client_info": {
+          "package_name": "com.example.chatengine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "603672731592-127omndokdlshcd5crrfoh55f49makt5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtfc2M3_HQyc0c3JvvoRBFd3RP3awW0Oc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "603672731592-127omndokdlshcd5crrfoh55f49makt5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

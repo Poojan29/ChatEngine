@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">ChatEngine</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="send_button_label">Send</string>
+    <string name="full_name">Full Name</string>
+    <string name="registration">Registration</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="already_registered_login_here">Already Registered? Login here</string>
+    <string name="login">Login</string>
+    <string name="welcome">Welcome</string>
+    <string name="new_here_register">New Here? Register</string>
+    <string name="registor" />
+    <string name="registorr">Registor</string>
+    <string name="message">Message</string>
+    <string name="about_me">About Me</string>
+    <string name="group_chat">Group Chat</string>
+</resources>

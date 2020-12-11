@@ -134,8 +134,10 @@ public class PersonToPersonChat extends AppCompatActivity {
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Log.d("Snapshot", String.valueOf(dataSnapshot));
+//                String ptop = title+" - "+uid;
+//                snapshot.equals(ptop);
+                if (snapshot.exists()){
+                    Log.d("Data1", String.valueOf(snapshot));
                     PersonModel personModel = snapshot.getValue(PersonModel.class);
                     persontopersonarray.add(personModel);
                     personToPersonAdapter = new PersonToPersonAdapter(PersonToPersonChat.this, persontopersonarray);

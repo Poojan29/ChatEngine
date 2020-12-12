@@ -13,9 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -37,7 +34,7 @@ public class PersonToPersonChat extends AppCompatActivity {
     private DatabaseReference databaseReference, databaseReference2;
     private EditText mMessageEditText;
     private Button mSendButton;
-    private String uid, name, To;
+    private String uid, name, To, ptop, finalPtop;
 
 
 
@@ -62,10 +59,45 @@ public class PersonToPersonChat extends AppCompatActivity {
 
 
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        final String ptop = uid+" - "+title;
+
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("Messages").child("PersonChat").child(ptop);
+        databaseReference = firebaseDatabase.getReference().child("Messages").child("PersonChat");
         databaseReference2 = firebaseDatabase.getReference().child("Users");
+        ptop = uid + " - " + title;
+
+        databaseReference.child(ptop).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    finalPtop = ptop;
+                }
+                else {
+                    ptop = title+" - "+uid;
+                    firebaseDatabase.getReference().child("Messages").child("PersonChat").child(ptop).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()){
+                                finalPtop = ptop;
+                            }
+                            else{
+                                finalPtop = uid + " - " + title;
+                            }
+                            getChats(finalPtop);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
 
@@ -124,14 +156,16 @@ public class PersonToPersonChat extends AppCompatActivity {
             public void onClick(View view) {
 
                 PersonModel personModel = new PersonModel(mMessageEditText.getText().toString(), name, null, To);
-                databaseReference.push().setValue(personModel);
-
+                databaseReference.child(finalPtop).push().setValue(personModel);
                 // Clear input box
                 mMessageEditText.setText("");
             }
         });
 
-        databaseReference.addChildEventListener(new ChildEventListener() {
+    }
+
+    void getChats(String finalPtop){
+        databaseReference.child(finalPtop).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 //                String ptop = title+" - "+uid;
@@ -142,12 +176,16 @@ public class PersonToPersonChat extends AppCompatActivity {
                     persontopersonarray.add(personModel);
                     personToPersonAdapter = new PersonToPersonAdapter(PersonToPersonChat.this, persontopersonarray);
                     recyclerView.setAdapter(personToPersonAdapter);
+                    Log.d("Finish","Process Successful");
+                }
+                else {
+                    Log.d("NoData","No Data Found");
                 }
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                Log.d("Snapshot",snapshot.toString());
             }
 
             @Override
@@ -162,10 +200,8 @@ public class PersonToPersonChat extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.d("Error",error.toString());
             }
         });
-
-
     }
 }

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class PersonToPersonAdapter extends RecyclerView.Adapter<PersonToPersonAdapter.PersonViewHolder> {
 
+
     private Context context;
     private ArrayList<PersonModel> persontopersonarray;
 
@@ -24,7 +25,7 @@ public class PersonToPersonAdapter extends RecyclerView.Adapter<PersonToPersonAd
     @NonNull
     @Override
     public PersonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item_right, parent, false);
         return new PersonViewHolder(view);
     }
 
@@ -32,7 +33,7 @@ public class PersonToPersonAdapter extends RecyclerView.Adapter<PersonToPersonAd
     public void onBindViewHolder(@NonNull PersonViewHolder holder, int position) {
         PersonModel personModel = persontopersonarray.get(position);
 
-        holder.nametxt.setText(personModel.getName());
+        holder.nametxt.setText(personModel.getSender());
         holder.msgtxt.setText(personModel.getMsg());
     }
 
@@ -52,4 +53,6 @@ public class PersonToPersonAdapter extends RecyclerView.Adapter<PersonToPersonAd
             nametxt = itemView.findViewById(R.id.nameTextView);
         }
     }
+
+
 }

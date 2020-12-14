@@ -50,11 +50,13 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.UserView
 
                 if (userid.equals(firebaseAuth.getCurrentUser().getUid())){
                     Toast.makeText(context, "You can not message yourself.", Toast.LENGTH_SHORT).show();
+
                 }else {
 
                     Intent intent = new Intent(view.getContext(), PersonToPersonChat.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("uid", userid);
+                    bundle.putString("name", users.getUsername());
                     intent.putExtras(bundle);
                     view.getContext().startActivity(intent);
 
@@ -80,6 +82,7 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.UserView
 
             username = itemView.findViewById(R.id.username);
             cardView = itemView.findViewById(R.id.cardview);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

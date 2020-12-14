@@ -45,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private ImageButton mPhotoPickerButton;
     private EditText mMessageEditText;
-    private Button mSendButton;
+    private ImageButton mSendButton;
     private ArrayList<FriendlyMessage> arrayList;
 
-    private String uid,name;
+    private String uid,Sender;
 
     private FirebaseDatabase firebaseDatabase;
     private  DatabaseReference databaseReference, databaseReference2;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         mProgressBar = findViewById(R.id.progressBar);
         mPhotoPickerButton = (ImageButton) findViewById(R.id.photoPickerButton);
         mMessageEditText = (EditText) findViewById(R.id.messageEditText);
-        mSendButton = (Button) findViewById(R.id.sendButton);
+        mSendButton = (ImageButton) findViewById(R.id.sendButton);
 
         arrayList = new ArrayList<>();
 
@@ -79,10 +79,12 @@ public class MainActivity extends AppCompatActivity {
 
         //mProgressBar.setVisibility(View.VISIBLE);
 
+
+
         databaseReference2.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                name = snapshot.child("username").getValue().toString();
+                Sender = snapshot.child("username").getValue().toString();
             }
 
             @Override
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                FriendlyMessage friendlyMessages = new FriendlyMessage(mMessageEditText.getText().toString(), name, null);
+                FriendlyMessage friendlyMessages = new FriendlyMessage(mMessageEditText.getText().toString(), Sender, null, uid);
                 databaseReference.push().setValue(friendlyMessages);
 
                 // Clear input box

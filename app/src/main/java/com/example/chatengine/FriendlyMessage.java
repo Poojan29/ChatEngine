@@ -3,16 +3,20 @@ package com.example.chatengine;
 public class FriendlyMessage {
 
     private String text;
-    private String name;
+    private String Sender;
     private String photoUrl;
+    private String uid;
 
-    public FriendlyMessage() {
+    public String getUid() {
+        return uid;
     }
 
-    public FriendlyMessage(String text, String name, String photoUrl) {
-        this.text = text;
-        this.name = name;
-        this.photoUrl = photoUrl;
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public FriendlyMessage(String uid) {
+        this.uid = uid;
     }
 
     public String getText() {
@@ -23,12 +27,12 @@ public class FriendlyMessage {
         this.text = text;
     }
 
-    public String getName() {
-        return name;
+    public String getSender() {
+        return Sender;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSender(String sender) {
+        Sender = sender;
     }
 
     public String getPhotoUrl() {
@@ -37,5 +41,15 @@ public class FriendlyMessage {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public FriendlyMessage() {
+    }
+
+    public FriendlyMessage(String text, String sender, String photoUrl, String uid) {
+        this.text = text;
+        Sender = sender;
+        this.photoUrl = photoUrl;
+        this.uid = uid;
     }
 }

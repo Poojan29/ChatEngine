@@ -34,7 +34,7 @@ public class PersonToPersonChat extends AppCompatActivity {
     private DatabaseReference databaseReference, databaseReference2;
     private EditText mMessageEditText;
     private Button mSendButton;
-    private String uid, name, To, ptop, finalPtop;
+    private String uid, Sender, Receiver, ptop, finalPtop;
 
 
 
@@ -54,58 +54,24 @@ public class PersonToPersonChat extends AppCompatActivity {
         persontopersonarray = new ArrayList<>();
 
         Bundle bundle = getIntent().getExtras();
-        final String title = bundle.getString("uid", "User's UID");
+        final String opositeuid = bundle.getString("uid", "User's UID");
+        final String opositename = bundle.getString("name", "OpositeName");
 
-
+        setTitle(opositename);
 
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Messages").child("PersonChat");
         databaseReference2 = firebaseDatabase.getReference().child("Users");
-        ptop = uid + " - " + title;
+        ptop = uid + " - " + opositeuid;
 
-        databaseReference.child(ptop).addValueEventListener(new ValueEventListener() {
+
+        databaseReference2.child(opositeuid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    finalPtop = ptop;
-                }
-                else {
-                    ptop = title+" - "+uid;
-                    firebaseDatabase.getReference().child("Messages").child("PersonChat").child(ptop).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()){
-                                finalPtop = ptop;
-                            }
-                            else{
-                                finalPtop = uid + " - " + title;
-                            }
-                            getChats(finalPtop);
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-
-        databaseReference2.child(title).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    To = snapshot.child("username").getValue().toString();
+                    Receiver = snapshot.child("username").getValue().toString();
                 }
             }
 
@@ -120,7 +86,7 @@ public class PersonToPersonChat extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
-                    name = snapshot.child("username").getValue().toString();
+                    Sender = snapshot.child("username").getValue().toString();
                 }
             }
 
@@ -150,37 +116,33 @@ public class PersonToPersonChat extends AppCompatActivity {
             }
         });
 
-         //Send button sends a message and clears the EditText
+        //Send button sends a message and clears the EditText
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                PersonModel personModel = new PersonModel(mMessageEditText.getText().toString(), name, null, To);
-                databaseReference.child(finalPtop).push().setValue(personModel);
+                PersonModel personModel = new PersonModel(mMessageEditText.getText().toString(), Sender, null, Receiver, uid);
+                databaseReference.child(ptop).push().setValue(personModel);
                 // Clear input box
                 mMessageEditText.setText("");
             }
         });
 
-    }
-
-    void getChats(String finalPtop){
-        databaseReference.child(finalPtop).addChildEventListener(new ChildEventListener() {
+        databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                String ptop = title+" - "+uid;
-//                snapshot.equals(ptop);
+
                 if (snapshot.exists()){
-                    Log.d("Data1", String.valueOf(snapshot));
-                    PersonModel personModel = snapshot.getValue(PersonModel.class);
-                    persontopersonarray.add(personModel);
-                    personToPersonAdapter = new PersonToPersonAdapter(PersonToPersonChat.this, persontopersonarray);
-                    recyclerView.setAdapter(personToPersonAdapter);
-                    Log.d("Finish","Process Successful");
+                    if (snapshot.getKey().equals(ptop)){
+                        //Log.d("DataSnap", String.valueOf(snapshot));
+                        PersonModel personModel = snapshot.getValue(PersonModel.class);
+                        persontopersonarray.add(personModel);
+                        Log.d("Array", String.valueOf(persontopersonarray));
+                        personToPersonAdapter = new PersonToPersonAdapter(PersonToPersonChat.this, persontopersonarray);
+                        recyclerView.setAdapter(personToPersonAdapter);
+                    }
                 }
-                else {
-                    Log.d("NoData","No Data Found");
-                }
+
             }
 
             @Override
@@ -203,5 +165,6 @@ public class PersonToPersonChat extends AppCompatActivity {
                 Log.d("Error",error.toString());
             }
         });
+
     }
 }

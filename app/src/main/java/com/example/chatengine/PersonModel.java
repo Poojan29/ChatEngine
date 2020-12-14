@@ -3,19 +3,10 @@ package com.example.chatengine;
 public class PersonModel {
 
     private String msg;
-    private String name;
+    private String Sender;
     private String photoUrl;
-    private String To;
-
-    public PersonModel() {
-    }
-
-    public PersonModel(String msg, String name, String photoUrl, String to) {
-        this.msg = msg;
-        this.name = name;
-        this.photoUrl = photoUrl;
-        To = to;
-    }
+    private String Receiver;
+    private String Senderuid;
 
     public String getMsg() {
         return msg;
@@ -25,12 +16,12 @@ public class PersonModel {
         this.msg = msg;
     }
 
-    public String getName() {
-        return name;
+    public String getSender() {
+        return Sender;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSender(String sender) {
+        Sender = sender;
     }
 
     public String getPhotoUrl() {
@@ -41,13 +32,30 @@ public class PersonModel {
         this.photoUrl = photoUrl;
     }
 
-    public String getTo() {
-        return To;
+    public String getReceiver() {
+        return Receiver;
     }
 
-    public void setTo(String to) {
-        To = to;
+    public void setReceiver(String receiver) {
+        Receiver = receiver;
     }
 
+    public String getSenderuid() {
+        return Senderuid;
+    }
 
+    public void setSenderuid(String senderuid) {
+        Senderuid = senderuid;
+    }
+
+    public PersonModel(String msg, String sender, String photoUrl, String receiver, String senderuid) {
+        this.msg = msg;
+        Sender = sender;
+        this.photoUrl = photoUrl;
+        Receiver = receiver;
+        Senderuid = senderuid;
+    }
+
+    public PersonModel() {
+    }
 }

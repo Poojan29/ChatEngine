@@ -96,6 +96,42 @@ public class PersonToPersonChat extends AppCompatActivity {
             }
         });
 
+        databaseReference.child(ptop).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    finalPtop = ptop;
+                    getMessage(finalPtop);
+                }
+                else {
+                    ptop = opositeuid + " - " + uid;
+                    databaseReference.child(ptop).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()){
+                                finalPtop = ptop;
+                            }
+                            else {
+                                finalPtop = uid + " - " + opositeuid;
+                            }
+                            getMessage(finalPtop);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         //Enable Send button when there's text to send
         mMessageEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -127,20 +163,23 @@ public class PersonToPersonChat extends AppCompatActivity {
                 mMessageEditText.setText("");
             }
         });
+    }
 
-        databaseReference.addChildEventListener(new ChildEventListener() {
+    void getMessage(String finalPtop){
+        persontopersonarray.clear();
+        databaseReference.child(finalPtop).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
                 if (snapshot.exists()){
-                    if (snapshot.getKey().equals(ptop)){
-                        //Log.d("DataSnap", String.valueOf(snapshot));
-                        PersonModel personModel = snapshot.getValue(PersonModel.class);
-                        persontopersonarray.add(personModel);
-                        Log.d("Array", String.valueOf(persontopersonarray));
-                        personToPersonAdapter = new PersonToPersonAdapter(PersonToPersonChat.this, persontopersonarray);
-                        recyclerView.setAdapter(personToPersonAdapter);
-                    }
+                    //Log.d("DataSnap", String.valueOf(snapshot));
+                    PersonModel personModel = snapshot.getValue(PersonModel.class);
+                    persontopersonarray.add(personModel);
+                    Log.d("Array", String.valueOf(persontopersonarray));
+                    personToPersonAdapter = new PersonToPersonAdapter(PersonToPersonChat.this, persontopersonarray);
+                    recyclerView.setAdapter(personToPersonAdapter);
+                }
+                else {
+                    Log.v("Not Existtttttttttt","NOOOOOOOOOOOOOo");
                 }
 
             }
@@ -165,6 +204,5 @@ public class PersonToPersonChat extends AppCompatActivity {
                 Log.d("Error",error.toString());
             }
         });
-
     }
 }

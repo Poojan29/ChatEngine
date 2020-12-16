@@ -15,6 +15,7 @@ import android.text.Editable;
 
 import android.text.TextWatcher;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,11 +35,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity {
-
 
     private RecyclerView recyclerView;
     private MessageAdapter mMessageAdapter;
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mMessageEditText;
     private ImageButton mSendButton;
     private ArrayList<FriendlyMessage> arrayList;
+
 
     private String uid,Sender;
 
@@ -58,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setTitle("GroupChat");
+
+        DateFormat dateFormat = new SimpleDateFormat("h:mm a");
+        final String date = dateFormat.format(Calendar.getInstance().getTime());
 
         mProgressBar = findViewById(R.id.progressBar);
         mPhotoPickerButton = (ImageButton) findViewById(R.id.photoPickerButton);
@@ -78,9 +87,6 @@ public class MainActivity extends AppCompatActivity {
         uid = FirebaseAuth.getInstance().getUid();
 
         //mProgressBar.setVisibility(View.VISIBLE);
-
-
-
         databaseReference2.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -92,8 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Database Error", Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
         // Enable Send button when there's text to send
         mMessageEditText.addTextChangedListener(new TextWatcher() {
@@ -109,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                     mSendButton.setEnabled(false);
                 }
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
             }
@@ -120,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                FriendlyMessage friendlyMessages = new FriendlyMessage(mMessageEditText.getText().toString(), Sender, null, uid);
+                FriendlyMessage friendlyMessages = new FriendlyMessage(mMessageEditText.getText().toString(), Sender, null, uid, date);
                 databaseReference.push().setValue(friendlyMessages);
 
                 // Clear input box

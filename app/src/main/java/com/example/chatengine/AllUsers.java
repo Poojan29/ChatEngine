@@ -79,7 +79,6 @@ public class AllUsers extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setTitle("GroupChat");
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });

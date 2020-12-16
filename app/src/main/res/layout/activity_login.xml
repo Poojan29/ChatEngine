@@ -26,7 +26,7 @@
 
         <EditText
             android:id="@+id/txtEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="120dp"
             android:hint="@string/email"
@@ -41,7 +41,7 @@
 
         <EditText
             android:id="@+id/txtPwd"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:hint="@string/password"

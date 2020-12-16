@@ -7,6 +7,7 @@ public class PersonModel {
     private String photoUrl;
     private String Receiver;
     private String Senderuid;
+    private String date;
 
     public String getMsg() {
         return msg;
@@ -48,12 +49,21 @@ public class PersonModel {
         Senderuid = senderuid;
     }
 
-    public PersonModel(String msg, String sender, String photoUrl, String receiver, String senderuid) {
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public PersonModel(String msg, String sender, String photoUrl, String receiver, String senderuid, String date) {
         this.msg = msg;
         Sender = sender;
         this.photoUrl = photoUrl;
         Receiver = receiver;
         Senderuid = senderuid;
+        this.date = date;
     }
 
     public PersonModel() {

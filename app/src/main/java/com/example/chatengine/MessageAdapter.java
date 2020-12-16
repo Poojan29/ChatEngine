@@ -33,17 +33,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         this.arrayList = arraylist;
     }
 
-    @Override
-    public int getItemViewType(int position) {
-//        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (arrayList.get(position).getUid().equals(firebaseUser.getUid())){
-            return MSG_RIGHT;
-        }else{
-            return MSG_LEFT;
-        }
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -64,9 +53,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         String nametxt = friendlyMessage.getSender();
         String mestxt = friendlyMessage.getText();
+        String datetext = friendlyMessage.getDate();
+
 
         holder.nametxt.setText(nametxt);
         holder.msgtext.setText(mestxt);
+        holder.date.setText(datetext);
     }
 
     @Override
@@ -76,7 +68,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView msgtext, nametxt;
+        TextView msgtext, nametxt, date;
         ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -84,9 +76,20 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
             msgtext = itemView.findViewById(R.id.messageTextView);
             nametxt = itemView.findViewById(R.id.nameTextView);
+            date = itemView.findViewById(R.id.date);
 
         }
     }
 
+    @Override
+    public int getItemViewType(int position) {
+//        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (arrayList.get(position).getUid().equals(firebaseUser.getUid())){
+            return MSG_RIGHT;
+        }else{
+            return MSG_LEFT;
+        }
+    }
 
 }

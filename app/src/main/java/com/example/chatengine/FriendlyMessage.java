@@ -6,6 +6,7 @@ public class FriendlyMessage {
     private String Sender;
     private String photoUrl;
     private String uid;
+    private String date;
 
     public String getUid() {
         return uid;
@@ -46,10 +47,19 @@ public class FriendlyMessage {
     public FriendlyMessage() {
     }
 
-    public FriendlyMessage(String text, String sender, String photoUrl, String uid) {
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public FriendlyMessage(String text, String sender, String photoUrl, String uid, String date) {
         this.text = text;
         Sender = sender;
         this.photoUrl = photoUrl;
         this.uid = uid;
+        this.date = date;
     }
 }

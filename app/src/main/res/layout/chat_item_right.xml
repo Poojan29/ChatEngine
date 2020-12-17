@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="6dp"
+    android:layout_marginStart="80dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView

@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 
 public class AllUsers extends AppCompatActivity {
 
+    ProgressBar progressBar;
     private RecyclerView recyclerView;
     private ArrayList<AllUserModel> allUserModelArrayList;
     private FirebaseDatabase firebaseDatabase;
@@ -46,6 +48,7 @@ public class AllUsers extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.alluser_recyclerview);
         floatingActionButton = findViewById(R.id.floatingButton);
+        progressBar = findViewById(R.id.progressBar);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -56,6 +59,8 @@ public class AllUsers extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                progressBar.setVisibility(View.VISIBLE);
+                allUserModelArrayList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String name = dataSnapshot.child("username").getValue(String.class);
                     String uid = dataSnapshot.child("uid").getValue(String.class);
@@ -68,6 +73,7 @@ public class AllUsers extends AppCompatActivity {
                 }
                 allUserAdapter = new AllUserAdapter(AllUsers.this, allUserModelArrayList);
                 recyclerView.setAdapter(allUserAdapter);
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -98,7 +104,7 @@ public class AllUsers extends AppCompatActivity {
                 firebaseAuth = FirebaseAuth.getInstance();
                 firebaseAuth.signOut();
                 startActivity(new Intent(getApplicationContext(), Login.class));
-
+                finish();
             case R.id.about:
                 Toast.makeText(this, "Coming Soon...", Toast.LENGTH_SHORT).show();
 

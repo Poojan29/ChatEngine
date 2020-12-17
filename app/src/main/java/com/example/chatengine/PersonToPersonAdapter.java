@@ -47,7 +47,7 @@ public class PersonToPersonAdapter extends RecyclerView.Adapter<PersonToPersonAd
 
         holder.nametxt.setText(personModel.getSender());
         holder.msgtxt.setText(personModel.getMsg());
-        holder.date.setText(personModel.getDate());
+        holder.date.setText(personModel.getTime());
 
     }
 

@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -29,6 +31,7 @@ import java.util.Calendar;
 
 public class PersonToPersonChat extends AppCompatActivity {
 
+    ProgressBar progressBar;
     private RecyclerView recyclerView;
     private ArrayList<PersonModel> persontopersonarray;
     private PersonToPersonAdapter personToPersonAdapter;
@@ -51,11 +54,12 @@ public class PersonToPersonChat extends AppCompatActivity {
 //        String date = df.format(Calendar.getInstance().getTime());
 
         DateFormat dateFormat = new SimpleDateFormat("h:mm a");
-        final String date = dateFormat.format(Calendar.getInstance().getTime());
+        final String time = dateFormat.format(Calendar.getInstance().getTime());
 
         recyclerView = findViewById(R.id.personchatrecyclerview);
         mMessageEditText = findViewById(R.id.messageEditText);
         mSendButton = findViewById(R.id.sendButton);
+        progressBar = findViewById(R.id.progressBar);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -109,6 +113,7 @@ public class PersonToPersonChat extends AppCompatActivity {
         databaseReference.child(ptop).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                progressBar.setVisibility(View.VISIBLE);
                 if (snapshot.exists()){
                     finalPtop = ptop;
                     getMessage(finalPtop);
@@ -125,6 +130,7 @@ public class PersonToPersonChat extends AppCompatActivity {
                                 finalPtop = uid + " - " + opositeuid;
                             }
                             getMessage(finalPtop);
+                            progressBar.setVisibility(View.GONE);
                         }
 
                         @Override
@@ -167,7 +173,7 @@ public class PersonToPersonChat extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                PersonModel personModel = new PersonModel(mMessageEditText.getText().toString(), Sender, null, Receiver, uid, date);
+                PersonModel personModel = new PersonModel(mMessageEditText.getText().toString(), Sender, null, Receiver, uid, time);
                 databaseReference.child(ptop).push().setValue(personModel);
                 // Clear input box
                 mMessageEditText.setText("");
@@ -176,6 +182,7 @@ public class PersonToPersonChat extends AppCompatActivity {
     }
 
     void getMessage(String finalPtop){
+
         persontopersonarray.clear();
         databaseReference.child(finalPtop).addChildEventListener(new ChildEventListener() {
             @Override
@@ -187,6 +194,7 @@ public class PersonToPersonChat extends AppCompatActivity {
                     Log.d("Array", String.valueOf(persontopersonarray));
                     personToPersonAdapter = new PersonToPersonAdapter(PersonToPersonChat.this, persontopersonarray);
                     recyclerView.setAdapter(personToPersonAdapter);
+                    progressBar.setVisibility(View.GONE);
                 }
                 else {
                     Log.v("Not Existtttttttttt","NOOOOOOOOOOOOOo");

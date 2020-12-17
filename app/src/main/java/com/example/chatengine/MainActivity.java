@@ -145,16 +145,16 @@ public class MainActivity extends AppCompatActivity {
 //
 //            }
 //        });
-
+        arrayList.clear();
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                mProgressBar.setVisibility(View.VISIBLE);
+
                 FriendlyMessage friendlyMessage = snapshot.getValue(FriendlyMessage.class);
                 arrayList.add(friendlyMessage);
                 mMessageAdapter = new MessageAdapter(MainActivity.this, arrayList);
                 recyclerView.setAdapter(mMessageAdapter);
-                mProgressBar.setVisibility(View.GONE);
+
             }
 
             @Override

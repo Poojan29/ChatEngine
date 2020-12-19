@@ -1,7 +1,6 @@
-package com.example.chatengine;
+package com.example.chatengine.Activities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,11 +13,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import com.example.chatengine.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import com.example.chatengine.Adapters.AllUserAdapter;
+import com.example.chatengine.Models.AllUserModel;
 
 public class AllUsers extends AppCompatActivity {
 
@@ -106,7 +107,7 @@ public class AllUsers extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), Login.class));
                 finish();
             case R.id.about:
-                Toast.makeText(this, "Coming Soon...", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), About.class));
 
         }
         return super.onOptionsItemSelected(item);

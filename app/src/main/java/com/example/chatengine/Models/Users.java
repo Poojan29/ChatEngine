@@ -1,4 +1,4 @@
-package com.example.chatengine;
+package com.example.chatengine.Models;
 
 public class Users {
 

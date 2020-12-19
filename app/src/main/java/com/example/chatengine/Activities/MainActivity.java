@@ -1,12 +1,10 @@
-package com.example.chatengine;
+package com.example.chatengine.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
 
 import android.os.Bundle;
 
@@ -15,18 +13,14 @@ import android.text.Editable;
 
 import android.text.TextWatcher;
 
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.chatengine.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +33,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import com.example.chatengine.Adapters.MessageAdapter;
+import com.example.chatengine.Models.FriendlyMessage;
 
 
 public class MainActivity extends AppCompatActivity {

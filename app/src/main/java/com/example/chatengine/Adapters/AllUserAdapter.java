@@ -1,4 +1,4 @@
-package com.example.chatengine;
+package com.example.chatengine.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chatengine.Models.AllUserModel;
+import com.example.chatengine.Activities.PersonToPersonChat;
+import com.example.chatengine.R;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -74,7 +77,7 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.UserView
 
     public class UserViewHolder extends RecyclerView.ViewHolder{
 
-        TextView username;
+        TextView username,mesgcount;
         CardView cardView;
 
         public UserViewHolder(@NonNull View itemView) {
@@ -82,6 +85,7 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.UserView
 
             username = itemView.findViewById(R.id.username);
             cardView = itemView.findViewById(R.id.cardview);
+            mesgcount = itemView.findViewById(R.id.mesgcount);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

@@ -44,6 +44,19 @@
             android:layout_gravity="bottom|end"
             android:background="@color/white" />
 
+        <TextView
+            android:id="@+id/mesgcount"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_gravity="end|center_vertical"
+            android:background="@drawable/button_back"
+            android:gravity="center"
+            android:text="5"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="18dp"/>
+
 
     </androidx.cardview.widget.CardView>
 

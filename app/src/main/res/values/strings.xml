@@ -15,4 +15,7 @@
     <string name="message">Message</string>
     <string name="about_me">About Me</string>
     <string name="group_chat">Group Chat</string>
+    <string name="about_app">About App</string>
+    <string name="developed_by">Developed By:</string>
+    <string name="poojan_prajapati">Poojan Prajapati</string>
 </resources>

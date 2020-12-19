@@ -1,4 +1,4 @@
-package com.example.chatengine;
+package com.example.chatengine.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,8 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
+import com.example.chatengine.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +28,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import com.example.chatengine.Adapters.PersonToPersonAdapter;
+import com.example.chatengine.Models.PersonModel;
 
 public class PersonToPersonChat extends AppCompatActivity {
 
@@ -42,6 +45,7 @@ public class PersonToPersonChat extends AppCompatActivity {
     private Button mSendButton;
     private String uid, Sender, Receiver, ptop, finalPtop;
 
+    ArrayList<String> newMsg = new ArrayList<>();
 
 
     @Override
@@ -84,7 +88,7 @@ public class PersonToPersonChat extends AppCompatActivity {
         databaseReference2.child(opositeuid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     Receiver = snapshot.child("username").getValue().toString();
                 }
             }
@@ -99,7 +103,7 @@ public class PersonToPersonChat extends AppCompatActivity {
         databaseReference2.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     Sender = snapshot.child("username").getValue().toString();
                 }
             }
@@ -114,22 +118,22 @@ public class PersonToPersonChat extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 progressBar.setVisibility(View.VISIBLE);
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     finalPtop = ptop;
                     getMessage(finalPtop);
-                }
-                else {
+                    persontopersonarray.clear();
+                } else {
                     ptop = opositeuid + " - " + uid;
                     databaseReference.child(ptop).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()){
+                            if (snapshot.exists()) {
                                 finalPtop = ptop;
-                            }
-                            else {
+                            } else {
                                 finalPtop = uid + " - " + opositeuid;
                             }
                             getMessage(finalPtop);
+                            persontopersonarray.clear();
                             progressBar.setVisibility(View.GONE);
                         }
 
@@ -174,6 +178,9 @@ public class PersonToPersonChat extends AppCompatActivity {
             public void onClick(View view) {
 
                 PersonModel personModel = new PersonModel(mMessageEditText.getText().toString(), Sender, null, Receiver, uid, time);
+                if (mMessageEditText.getText().length() <= 0) {
+                    mMessageEditText.setText("");
+                }
                 databaseReference.child(ptop).push().setValue(personModel);
                 // Clear input box
                 mMessageEditText.setText("");
@@ -181,13 +188,13 @@ public class PersonToPersonChat extends AppCompatActivity {
         });
     }
 
-    void getMessage(String finalPtop){
+    void getMessage(String finalPtop) {
 
-        persontopersonarray.clear();
+
         databaseReference.child(finalPtop).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     //Log.d("DataSnap", String.valueOf(snapshot));
                     PersonModel personModel = snapshot.getValue(PersonModel.class);
                     persontopersonarray.add(personModel);
@@ -195,16 +202,15 @@ public class PersonToPersonChat extends AppCompatActivity {
                     personToPersonAdapter = new PersonToPersonAdapter(PersonToPersonChat.this, persontopersonarray);
                     recyclerView.setAdapter(personToPersonAdapter);
                     progressBar.setVisibility(View.GONE);
-                }
-                else {
-                    Log.v("Not Existtttttttttt","NOOOOOOOOOOOOOo");
+                } else {
+                    Log.v("Not Existtttttttttt", "NOOOOOOOOOOOOOo");
                 }
 
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Log.d("Snapshot",snapshot.toString());
+                Log.d("Snapshot", snapshot.toString());
             }
 
             @Override
@@ -219,8 +225,9 @@ public class PersonToPersonChat extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Error",error.toString());
+                Log.d("Error", error.toString());
             }
         });
     }
 }
+

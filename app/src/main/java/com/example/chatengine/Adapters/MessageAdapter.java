@@ -1,4 +1,4 @@
-package com.example.chatengine;
+package com.example.chatengine.Adapters;
 
 
 import android.content.Context;
@@ -11,10 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.chatengine.Models.FriendlyMessage;
+import com.example.chatengine.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 

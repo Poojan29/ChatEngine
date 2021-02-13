@@ -34,10 +34,10 @@ public class PersonToPersonAdapter extends RecyclerView.Adapter<PersonToPersonAd
     @Override
     public PersonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == RIGHT_MSG){
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item_right, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ptop_chat_right, parent, false);
             return new PersonViewHolder(view);
         }else{
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chat_item_left, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.ptop_chat_left, parent, false);
             return new PersonViewHolder(view);
         }
 
@@ -47,7 +47,7 @@ public class PersonToPersonAdapter extends RecyclerView.Adapter<PersonToPersonAd
     public void onBindViewHolder(@NonNull PersonViewHolder holder, int position) {
         PersonModel personModel = persontopersonarray.get(position);
 
-        holder.nametxt.setText(personModel.getSender());
+//        holder.nametxt.setText(personModel.getSender());
         holder.msgtxt.setText(personModel.getMsg());
         holder.date.setText(personModel.getTime());
 
@@ -60,13 +60,13 @@ public class PersonToPersonAdapter extends RecyclerView.Adapter<PersonToPersonAd
 
     public class PersonViewHolder extends RecyclerView.ViewHolder {
 
-        TextView msgtxt, nametxt, date;
+        TextView msgtxt, date;
 
         public PersonViewHolder(@NonNull View itemView) {
             super(itemView);
 
             msgtxt = itemView.findViewById(R.id.messageTextView);
-            nametxt = itemView.findViewById(R.id.nameTextView);
+//            nametxt = itemView.findViewById(R.id.nameTextView);
             date = itemView.findViewById(R.id.date);
         }
     }

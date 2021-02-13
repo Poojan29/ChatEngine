@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,13 +13,15 @@ import android.widget.Toast;
 import com.example.chatengine.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Login extends AppCompatActivity {
 
-    EditText email, password;
-    Button login;
+    TextInputEditText email, password;
+    MaterialButton login;
     FirebaseAuth Auth;
     TextView register;
     ProgressBar progressBar;
@@ -51,6 +51,7 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                login.setEnabled(false);
                 progressBar.setVisibility(View.VISIBLE);
                 String emailtxt = email.getText().toString();
                 String Password = password.getText().toString();
@@ -75,6 +76,7 @@ public class Login extends AppCompatActivity {
                                         String exception = task.getException().toString();
                                         Toast.makeText(Login.this, exception, Toast.LENGTH_LONG).show();
                                         progressBar.setVisibility(View.GONE);
+                                        login.setEnabled(true);
                                     }
                                 }
                             });

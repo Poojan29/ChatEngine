@@ -66,9 +66,11 @@ public class MainActivity extends AppCompatActivity {
         final String date = dateFormat.format(Calendar.getInstance().getTime());
 
         mProgressBar = findViewById(R.id.progressBar);
-        mPhotoPickerButton = (ImageButton) findViewById(R.id.photoPickerButton);
-        mMessageEditText = (EditText) findViewById(R.id.messageEditText);
-        mSendButton = (ImageButton) findViewById(R.id.sendButton);
+        mPhotoPickerButton = findViewById(R.id.photoPickerButton);
+        mMessageEditText =  findViewById(R.id.messageEditText);
+        mSendButton =  findViewById(R.id.sendButton);
+
+        mSendButton.setEnabled(false);
 
         arrayList = new ArrayList<>();
 
@@ -82,19 +84,6 @@ public class MainActivity extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference().child("Messages").child("GroupChat");
         databaseReference2 = firebaseDatabase.getReference().child("Users");
         uid = FirebaseAuth.getInstance().getUid();
-
-        //mProgressBar.setVisibility(View.VISIBLE);
-        databaseReference2.child(uid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Sender = snapshot.child("username").getValue().toString();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(MainActivity.this, "Database Error", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         // Enable Send button when there's text to send
         mMessageEditText.addTextChangedListener(new TextWatcher() {
@@ -115,6 +104,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        databaseReference2.child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Sender = snapshot.child("username").getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "Database Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         // Send button sends a message and clears the EditText
         mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,20 +129,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.exists()){
-//                    FriendlyMessage friendlyMessage = snapshot.getValue(FriendlyMessage.class);
-//                    arrayList.add(friendlyMessage);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
         arrayList.clear();
         databaseReference.addChildEventListener(new ChildEventListener() {
             @Override

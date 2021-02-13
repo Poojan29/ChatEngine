@@ -10,7 +10,6 @@
     <string name="login">Login</string>
     <string name="welcome">Welcome</string>
     <string name="new_here_register">New Here? Register</string>
-    <string name="registor" />
     <string name="registorr">Registor</string>
     <string name="message">Message</string>
     <string name="about_me">About Me</string>
@@ -18,4 +17,11 @@
     <string name="about_app">About App</string>
     <string name="developed_by">Developed By:</string>
     <string name="poojan_prajapati">Poojan Prajapati</string>
+    <string name="profile">Profile</string>
+    <string name="username">UserName</string>
+    <string name="update">Update</string>
+    <string name="wallpaper">Wallpaper</string>
+    <string name="button">Button</string>
+    <string name="hello_there">Hello There!</string>
+    <string name="cancel">Cancel</string>
 </resources>

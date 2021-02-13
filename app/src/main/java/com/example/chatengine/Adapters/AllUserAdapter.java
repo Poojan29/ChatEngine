@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,8 +18,11 @@ import com.example.chatengine.Models.AllUserModel;
 import com.example.chatengine.Activities.PersonToPersonChat;
 import com.example.chatengine.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.UserViewHolder> {
 
@@ -42,10 +46,16 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.UserView
     public void onBindViewHolder(@NonNull final UserViewHolder holder, final int position) {
         final AllUserModel users = allUserModelArrayList.get(position);
 
+        if (users.getUserphoto() == null){
+            Picasso.get().load(R.drawable.night).fit().centerCrop().into(holder.userImage);
+        }else {
+            Picasso.get().load(users.getUserphoto()).fit().centerCrop().into(holder.userImage);
+        }
         holder.username.setText(users.getUsername());
         final String userid = users.getUid();
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -77,15 +87,18 @@ public class AllUserAdapter extends RecyclerView.Adapter<AllUserAdapter.UserView
 
     public class UserViewHolder extends RecyclerView.ViewHolder{
 
-        TextView username,mesgcount;
-        CardView cardView;
+        TextView username;
+        LinearLayout linearLayout;
+        CircleImageView userImage;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
 
             username = itemView.findViewById(R.id.username);
-            cardView = itemView.findViewById(R.id.cardview);
-            mesgcount = itemView.findViewById(R.id.mesgcount);
+            linearLayout = itemView.findViewById(R.id.linearLayout);
+            userImage = itemView.findViewById(R.id.userimage);
+//            cardView = itemView.findViewById(R.id.cardview);
+//            mesgcount = itemView.findViewById(R.id.mesgcount);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

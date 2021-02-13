@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.Profile">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userprofile"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/person"
+        android:layout_marginTop="50dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/editbtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/userprofile"
+        android:layout_alignEnd="@+id/NameField"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:cornerRadius="100dp"
+        app:icon="@drawable/edit"
+        app:iconGravity="textEnd"
+        app:iconPadding="0dp"
+        app:iconSize="29dp"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Circle" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/NameField"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userprofile"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:hint="@string/username">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/EmailField"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/NameField"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:hint="@string/email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+<!--   <com.google.android.material.button.MaterialButton-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/update"-->
+<!--        android:layout_below="@id/EmailField"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:text="@string/update"-->
+<!--        android:layout_marginTop="30dp"/>-->
+
+</RelativeLayout>

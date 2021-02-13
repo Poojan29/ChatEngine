@@ -2,6 +2,7 @@ package com.example.chatengine.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.chatengine.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -49,9 +51,9 @@ public class AllUsers extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.alluser_recyclerview);
         floatingActionButton = findViewById(R.id.floatingButton);
-        progressBar = findViewById(R.id.progressBar);
+        progressBar = findViewById(R.id.alluserprogressBar);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Users");
 
@@ -63,13 +65,18 @@ public class AllUsers extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
                 allUserModelArrayList.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String email = dataSnapshot.child("username").getValue(String.class);
                     String name = dataSnapshot.child("username").getValue(String.class);
                     String uid = dataSnapshot.child("uid").getValue(String.class);
-                    Log.d("TAG", name);
+                    if (dataSnapshot.child("photourl").exists()){
+                        String photourl = dataSnapshot.child("photourl").getValue(String.class);
 
-                    AllUserModel allUserModel = new AllUserModel(name, uid);
-
-                    allUserModelArrayList.add(allUserModel);
+                        AllUserModel allUserModel = new AllUserModel(email, name, uid, photourl);
+                        allUserModelArrayList.add(allUserModel);
+                    }else{
+                        AllUserModel allUserModel = new AllUserModel(email, name , uid);
+                        allUserModelArrayList.add(allUserModel);
+                    }
 
                 }
                 allUserAdapter = new AllUserAdapter(AllUsers.this, allUserModelArrayList);
@@ -101,13 +108,22 @@ public class AllUsers extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.profile_menu:
+                startActivity(new Intent(getApplicationContext(), Profile.class));
+//                Toast.makeText(this, "Coming Soon..", Toast.LENGTH_SHORT).show();
+                return true;
+
             case R.id.sign_out_menu:
                 firebaseAuth = FirebaseAuth.getInstance();
                 firebaseAuth.signOut();
                 startActivity(new Intent(getApplicationContext(), Login.class));
                 finish();
+                return true;
+
             case R.id.about:
                 startActivity(new Intent(getApplicationContext(), About.class));
+                return true;
+
 
         }
         return super.onOptionsItemSelected(item);
